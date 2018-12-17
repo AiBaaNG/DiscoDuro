@@ -137,7 +137,7 @@ require_once("../../seguridad/tema05/sesionesbd.php");
             <a href='cerrar.php' class='button button1'>Cerrar Sesión</a>
         </div>
     </header>
-    <nav>
+  
 
         <h1>Disco virtual</h1>
         <div id="espacio">
@@ -147,7 +147,7 @@ require_once("../../seguridad/tema05/sesionesbd.php");
         </div>
         <br /><br />
         
-        
+    
         
         
         <section>
@@ -200,6 +200,7 @@ require_once("../../seguridad/tema05/sesionesbd.php");
 
                 <hr style="width: 100%;" />
                 <form enctype="multipart/form-data" action="subir.php" method="post">
+                   <input type="hidden" value="<?=$usuario?>" name="usuarioH" />
                     <table>
                         <caption>Carga de ficheros</caption>
                         <tr>
@@ -209,6 +210,7 @@ require_once("../../seguridad/tema05/sesionesbd.php");
                         </tr>
 
                         <tr>
+                           
                             <td colspan="2"><input type="submit" value="Subir" />
                         </tr>
                     </table>
@@ -218,7 +220,6 @@ require_once("../../seguridad/tema05/sesionesbd.php");
 
 
 
-    </nav>
 
 
 

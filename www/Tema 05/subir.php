@@ -1,7 +1,12 @@
 <?php
-require_once("../../seguridad/ficheros/sesionesbd.php");
+require_once("../../seguridad/tema05/sesionesbd.php");
  
+if(!isset($_POST['usuarioH'])){
+    header("Location: hdd.php");
+	exit;
+}
 
+$usuarioH = strip_tags(trim($_POST["usuarioH"]));
 
 if (!isset($_FILES['ficheros'])){
 	header("Location: hdd.php");
@@ -20,10 +25,9 @@ if (mysqli_connect_errno()) {
     printf("Error de conexión: %s\n", mysqli_connect_error());
     exit();
 }
-
 $sql="insert into ficheros (id,nombre,tamanyo,tipo,usuario) values (?,?,?,?,?);";
 $consulta=mysqli_prepare($canal,$sql);
-mysqli_stmt_bind_param($consulta,"ssis",$id_,$nombre_,$tamanyo_,$tipo_,$usuario_);
+mysqli_stmt_bind_param($consulta,"ssiss",$id_,$nombre_,$tamanyo_,$tipo_,$usuario_);
 $mensaje="";
 for($i=0;$i<$numeroFicherosSubidos;$i++){
 	switch ($_FILES['ficheros']['error'][$i]) {
@@ -35,7 +39,7 @@ for($i=0;$i<$numeroFicherosSubidos;$i++){
 				$nombre_=basename($_FILES['ficheros']['name'][$i]);
 				$tamanyo_=$_FILES['ficheros']['size'][$i];
 				$tipo_=$_FILES['ficheros']['type'][$i];
-                $usuario_=$_FILES['usuario']['type'][$i];
+                $usuario_= $usuarioH;
 				mysqli_stmt_execute($consulta);
 			} else {
 				$mensaje.=basename($_FILES['ficheros']['name'][$i])." error desconocido. ";
@@ -52,5 +56,5 @@ for($i=0;$i<$numeroFicherosSubidos;$i++){
 }
 mysqli_stmt_close($consulta);
 mysqli_close($canal);
-header("Location: formularioSubida.php?mensaje=".urlencode($mensaje))
+header("Location: hdd.php?mensaje=".urlencode($mensaje));
 ?>

@@ -1,0 +1,1 @@
+en subir php comprobar que la sesion esté creada
