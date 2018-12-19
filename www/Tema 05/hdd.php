@@ -3,6 +3,42 @@ include "../../seguridad/tema05/funciones.php";
 include "../../seguridad/tema05/menu-s.php";
 require_once("../../seguridad/tema05/sesionesbd.php");
 ?>
+<?php 
+    
+                 $espacioUsado = 0;
+                 $canal=@mysqli_connect(IP,USUARIO,CLAVE,BD);
+                    if (!$canal){
+                        echo "Ha ocurrido el error: ".mysqli_connect_errno()." ".mysqli_connect_error()."<br />";
+                    exit;
+                    }
+                    mysqli_set_charset($canal,"utf8");
+
+                    $sql="select tamanyo from ficheros where usuario=?";
+                    $consulta=mysqli_prepare($canal,$sql);
+                    if (!$consulta){
+                        echo "Ha ocurrido el error: ".mysqli_errno($canal)." ".mysqli_error($canal)."<br />";
+                    exit;	
+                    }
+                    mysqli_stmt_bind_param($consulta,"s",$uusuario);
+                    $uusuario=$usuario;
+                    mysqli_stmt_execute($consulta);
+                    mysqli_stmt_bind_result($consulta,$tamanyoBD);
+                    while(mysqli_stmt_fetch($consulta)){
+                        $espacioUsado = $espacioUsado + $tamanyoBD;
+                     
+                    }
+
+                    $espacioDisponible = $cuota - $espacioUsado;
+                    $espacioDisponible = $espacioDisponible / 1e+6;
+
+                    
+                    mysqli_stmt_close($consulta);
+                    unset($consulta);
+                
+
+    
+    
+?>
 <!DOCTYPE html>
 <html>
 
@@ -141,8 +177,9 @@ require_once("../../seguridad/tema05/sesionesbd.php");
 
         <h1>Disco virtual</h1>
         <div id="espacio">
+           
             <h3>Espacio disponible:
-                <?='  '.$cuota?>
+                <?='  '.$espacioDisponible?>MB
             </h3>
         </div>
         <br /><br />
@@ -160,13 +197,16 @@ require_once("../../seguridad/tema05/sesionesbd.php");
                     }
                     mysqli_set_charset($canal,"utf8");
 
-                    $sql="select id, nombre, tamanyo from ficheros order by nombre";
+                    $sql="select id, nombre, tamanyo from ficheros where usuario=? order by nombre";
+
+
                     $consulta=mysqli_prepare($canal,$sql);
                     if (!$consulta){
                         echo "Ha ocurrido el error: ".mysqli_errno($canal)." ".mysqli_error($canal)."<br />";
                     exit;	
                     }
-
+                    mysqli_stmt_bind_param($consulta,"s",$uusuario);
+                    $uusuario=$usuario;
 
                     mysqli_stmt_execute($consulta);
                     mysqli_stmt_bind_result($consulta, $id, $nombre,$tamanyo);
