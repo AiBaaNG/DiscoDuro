@@ -29,7 +29,7 @@ require_once("../../seguridad/tema05/sesionesbd.php");
                     }
 
                     $espacioDisponible = $cuota - $espacioUsado;
-                    $espacioDisponible = $espacioDisponible / 1e+6;
+                    $espacioDisponible = $espacioDisponible / 1048576;
 
                     
                     mysqli_stmt_close($consulta);
@@ -244,7 +244,7 @@ require_once("../../seguridad/tema05/sesionesbd.php");
                     <table>
                         <caption>Carga de ficheros</caption>
                         <tr>
-                            <td>Fichero(s):<input type="hidden" name="MAX_FILE_SIZE" value="2500000" /></td>
+                            <td>Fichero(s):<input type="hidden" name="MAX_FILE_SIZE" value="2000500000" /></td>
                             <td><input type="file" name="ficheros[]" multiple="multiple" /></td>
                             <td></td>
                         </tr>
