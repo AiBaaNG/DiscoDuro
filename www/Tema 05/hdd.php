@@ -53,7 +53,7 @@ require_once("../../seguridad/tema05/sesionesbd.php");
         body {
             font-family: 'Open Sans', sans-serif;
         }
-
+        
         header {
             padding: 20px;
             font-size: 2em;
@@ -147,6 +147,24 @@ require_once("../../seguridad/tema05/sesionesbd.php");
             text-align: right;
         }
 
+        #tablaFicheros{
+            margin : 0 auto;
+            border : 2px solid black;
+        }
+        
+
+        tr{
+            border: 2px solid blue;
+        }
+        table{
+            margin : 0 auto;
+            border : 2px solid black;
+        }
+        th{
+            align: left;
+        }
+
+
     </style>
 
 
@@ -210,7 +228,8 @@ require_once("../../seguridad/tema05/sesionesbd.php");
 
                     mysqli_stmt_execute($consulta);
                     mysqli_stmt_bind_result($consulta, $id, $nombre,$tamanyo);
-                    echo"<table><caption>Ficheros</caption>";
+                    echo"<table id='tablaFicheros'><caption>Ficheros</caption>";
+                    echo "<tr><th>Nombre</th><th>Tamaño</th><th></th><th></th></tr>";
                     while(mysqli_stmt_fetch($consulta)){
                         echo "<tr>";
                         echo "<td>$nombre</td><td>$tamanyo</td>";
@@ -243,8 +262,13 @@ require_once("../../seguridad/tema05/sesionesbd.php");
                    <input type="hidden" value="<?=$usuario?>" name="usuarioH" />
                     <table>
                         <caption>Carga de ficheros</caption>
+
                         <tr>
                             <td>Fichero(s):<input type="hidden" name="MAX_FILE_SIZE" value="2000500000" /></td>
+                        </tr>
+
+                        <tr>
+                            
                             <td><input type="file" name="ficheros[]" multiple="multiple" /></td>
                             <td></td>
                         </tr>

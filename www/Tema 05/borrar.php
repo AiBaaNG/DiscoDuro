@@ -1,6 +1,6 @@
 <?php
 require_once("../../seguridad/tema05/sesionesbd.php");
-define("__ALMACEN__","../../seguridad/tema05/archivos/");
+
 if (!isset($_POST['id'])){
 	header("Location: hdd.php");
 	exit;
